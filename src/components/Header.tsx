@@ -18,7 +18,10 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const toggleMobileMenu = () => setMenuOpen(!menuOpen);
+  const toggleMobileMenu = () => {
+    setMenuOpen(!menuOpen);
+    document.body.style.overflow = !menuOpen ? 'hidden' : 'auto'; // lock scroll
+  };
 
   const handleMouseEnter = (menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -37,7 +40,6 @@ const Header: React.FC = () => {
         .fade-dropdown {
           animation: fadeIn 0.3s ease forwards;
         }
-
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -53,7 +55,7 @@ const Header: React.FC = () => {
       <header style={styles.header}>
         <div style={styles.container}>
           <div style={styles.logoWrapper}>
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link to="/" aria-label="Home" style={{ textDecoration: 'none' }}>
               <img
                 src="/assets/logo.png"
                 alt="Techno Flow Logo"
@@ -63,7 +65,11 @@ const Header: React.FC = () => {
           </div>
 
           {isMobile ? (
-            <div style={styles.hamburger} onClick={toggleMobileMenu}>
+            <div
+              style={styles.hamburger}
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
               {menuOpen ? <FaTimes size={22} color="#000" /> : <FaBars size={22} color="#000" />}
             </div>
           ) : (
@@ -131,15 +137,19 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
     zIndex: 999,
   },
-  container: {
+    container: {
+    width: '100%',
     maxWidth: '1500px',
     margin: '0 auto',
-    padding: '0 40px',
+    padding: '0 16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '90px',
+    boxSizing: 'border-box',
+    flexWrap: 'wrap', // just in case
   },
+
   logoWrapper: {
     display: 'flex',
     alignItems: 'center',
@@ -195,19 +205,22 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: '18px',
     cursor: 'pointer',
   },
-  mobileNav: {
+     mobileNav: {
     position: 'absolute',
-    top: '90px',
-    right: 0,
+    top: '90px', // height of your header
+    left: 0,
     width: '100%',
     backgroundColor: '#fff',
-    padding: '1rem 2rem',
+    padding: '1rem 1.5rem',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem',
-    zIndex: 998,
+    gap: '1.25rem',
+    zIndex: 999,
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    borderTop: '1px solid #ddd',
   },
+
+
   mobileLink: {
     textDecoration: 'none',
     color: '#000',
