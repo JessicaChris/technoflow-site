@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+ import React, { useEffect, useRef, useState } from 'react';
 
 const ScrollSections: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'llc' | 'em' | 'vessel' | 'img1' | 'img2' | 'img3' | 'img4'>('llc');
@@ -70,17 +70,20 @@ const ScrollSections: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', background: '#fff', color: '#000', minHeight: '100vh' }}>
+      <div className="scroll-container" style={{ display: 'flex', background: '#fff', color: '#000', minHeight: '100vh' }}>
+
       {/* 🔒 Sticky Left Headers */}
       <div
-        style={{
-          width: '30%',
-          padding: '4rem 2rem',
-          position: 'sticky',
-          top: '100px',
-          height: 'fit-content',
-        }}
-      >
+  className="sticky-nav"
+  style={{
+    width: '30%',
+    padding: '4rem 2rem',
+    position: 'sticky',
+    top: '100px',
+    height: 'fit-content',
+  }}
+>
+
         {[
           ['llc', 'ELECTRICAL'],
           ['em', 'MECHANICAL'],
@@ -109,7 +112,7 @@ const ScrollSections: React.FC = () => {
       </div>
 
       {/* ✨ Right Scrollable Sections */}
-      <div style={{ width: '70%', padding: '4rem 2rem' }}>
+      <div className="sections-container" style={{ width: '70%', padding: '4rem 2rem' }}>
         {/* SECTION 1 */}
         <div
           ref={sectionRefs.llc}
@@ -312,6 +315,56 @@ const ScrollSections: React.FC = () => {
               }}
             />
           ))}
+        <style>
+{`
+  @media (max-width: 768px) {
+    .scroll-container {
+      flex-direction: column;
+    }
+
+    .sticky-nav {
+      width: 100% !important;
+      position: relative !important;
+      top: auto !important;
+      padding: 2rem 1rem !important;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .sticky-nav > div {
+      font-size: 1rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .sections-container {
+      width: 100% !important;
+      padding: 2rem 1rem !important;
+    }
+
+    .sections-container > div[data-section^="img"],
+    .sections-container > div[data-section="vessel"] {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+
+    .sections-container img {
+      width: 90% !important;
+      max-width: 400px !important;
+      height: auto !important;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+`}
+</style>
+
+
+
+
         </div>
       </div>
     </div>
@@ -319,3 +372,4 @@ const ScrollSections: React.FC = () => {
 };
 
 export default ScrollSections;
+
