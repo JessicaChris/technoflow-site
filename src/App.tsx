@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'; // 🛑 make sure you import t
 import Header from './components/Header';
 import BannerSlider from './components/BannerSlider';
 import Intro from './components/Intro';
-import ScrollSections from './components/CompanySection';
+import ScrollSections from './components/ScrollSections';
 import ProjectsSection from './components/ProjectsSection';
 import ContactUs from './components/ContactUs';
 import Footer from './components/Footer';
