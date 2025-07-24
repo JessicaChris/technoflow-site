@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUsers } from 'react-icons/fa';
 import { MdWorkOutline } from 'react-icons/md';
 
 const Intro: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <motion.section
       style={{
         backgroundColor: '#111',
         color: '#fff',
-        padding: '7rem 5rem 1rem', // ⬅️ Pushes content lower
+        padding: isMobile ? '4rem 1rem 2rem' : '7rem 5rem 1rem',
         textAlign: 'center',
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -18,7 +26,10 @@ const Intro: React.FC = () => {
       transition={{ duration: 1 }}
     >
       <motion.h2
-        style={{ fontSize: '3.4rem', marginBottom: '1rem' }} // ⬅️ Bigger logo/title
+        style={{
+          fontSize: isMobile ? '2.2rem' : '3.4rem',
+          marginBottom: '1rem',
+        }}
         initial={{ opacity: 0, y: -10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -29,10 +40,11 @@ const Intro: React.FC = () => {
 
       <motion.p
         style={{
-          fontSize: '1.2rem',
+          fontSize: isMobile ? '1rem' : '1.2rem',
           maxWidth: '800px',
           margin: '0 auto 2rem',
           lineHeight: '1.8',
+          padding: isMobile ? '0 1rem' : 0,
         }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -48,7 +60,14 @@ const Intro: React.FC = () => {
         industrial junction boxes, UPS & DC systems.
       </motion.p>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '2rem',
+          flexWrap: 'wrap',
+        }}
+      >
         <motion.div
           style={styles.statBox}
           initial={{ opacity: 0, y: 20 }}
@@ -83,6 +102,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     alignItems: 'center',
     minWidth: '140px',
+    marginBottom: '2rem',
   },
   statNumber: {
     fontSize: '2.2rem',
